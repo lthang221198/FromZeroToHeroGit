@@ -1,3 +1,5 @@
+package ImageResizer;
+
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
