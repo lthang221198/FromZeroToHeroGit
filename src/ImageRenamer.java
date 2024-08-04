@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class ImageRenamer {
     public static void main(String[] args) {
         // Specify the directory containing the images
-        String directoryPath = "path/to/your/image/folder";
+        String directoryPath = "D:\\Test";
         File directory = new File(directoryPath);
 
         // Check if the directory exists and is a directory
