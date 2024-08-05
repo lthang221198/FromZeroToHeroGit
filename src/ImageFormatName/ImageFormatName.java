@@ -1,10 +1,9 @@
-package ImageRenamer;
+package ImageFormatName;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
-public class ImageRenamer {
+public class ImageFormatName {
     public static void main(String[] args) {
         // Specify the directory containing the images
         String directoryPath = "D:\\Test";
