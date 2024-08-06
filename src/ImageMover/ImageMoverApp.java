@@ -104,25 +104,21 @@ public class ImageMoverApp {
                 targetDir.mkdirs();
             }
 
-            File[] files = sourceDir.listFiles((dir, name) -> {
-                String lowercaseName = name.toLowerCase();
-                return lowercaseName.endsWith(".jpg") || lowercaseName.endsWith(".jpeg") || lowercaseName.endsWith(".png");
-            });
+            java.util.List<File> files = new java.util.ArrayList<>();
+            findFiles(sourceDir, files);
 
-            if (files != null) {
-                int totalFiles = files.length;
-                int count = 0;
+            int totalFiles = files.size();
+            int count = 0;
 
-                for (File file : files) {
-                    File destFile = new File(targetDir, file.getName());
-                    if (file.length() > 100 * 1024) { // Move files larger than 100KB
-                        moveAndResizeImage(file, destFile);
-                    }
-
-                    count++;
-                    int progress = (int) ((count / (double) totalFiles) * 100);
-                    publish(progress);
+            for (File file : files) {
+                File destFile = new File(targetDir, file.getName());
+                if (file.length() > 100 * 1024) { // Move files larger than 100KB
+                    moveAndResizeImage(file, destFile);
                 }
+
+                count++;
+                int progress = (int) ((count / (double) totalFiles) * 100);
+                publish(progress);
             }
 
             return null;
@@ -139,6 +135,23 @@ public class ImageMoverApp {
         protected void done() {
             JOptionPane.showMessageDialog(frame, "Image moving and resizing completed!");
             progressBar.setValue(100);
+        }
+
+        private void findFiles(File dir, java.util.List<File> files) {
+            File[] listFiles = dir.listFiles((d, name) -> {
+                String lowercaseName = name.toLowerCase();
+                return d.isDirectory() || lowercaseName.endsWith(".jpg") || lowercaseName.endsWith(".jpeg") || lowercaseName.endsWith(".png");
+            });
+
+            if (listFiles != null) {
+                for (File file : listFiles) {
+                    if (file.isDirectory()) {
+                        findFiles(file, files);
+                    } else {
+                        files.add(file);
+                    }
+                }
+            }
         }
     }
 
